@@ -2,11 +2,13 @@ import styled from "styled-components";
 import HeaderProfile from "./header-profile";
 import { ReactComponent as BellIcon } from "../../assets/icons/bell.svg";
 import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <Wrapper>
-      <Logo>byulog</Logo>
+      <Logo onClick={() => navigate("/")}>byulog</Logo>
       <RightIcons>
         <div className="icon-div">
           <BellIcon />
@@ -61,6 +63,7 @@ const RightIcons = styled.div`
 const Logo = styled.div`
   font-size: 1.5rem;
   letter-spacing: 2px;
+  cursor: pointer;
 `;
 
 const Wrapper = styled.div`

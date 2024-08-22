@@ -4,35 +4,36 @@ import { ReactComponent as StockIcon } from "../../assets/icons/stock-up.svg";
 import { ReactComponent as WifiIcon } from "../../assets/icons/wifi.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-
+import SelectWrapper from "./select-wrapper";
 const HomeTab = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const tabRefs = useRef([]);
   const [transDegree, setTransDegree] = useState(0);
   useEffect(() => {
-    tabRefs.current.forEach((el) => {
-      el.style.setProperty("color", "var(--text3)");
-      el.style.setProperty("font-weight", "200");
-    });
+    const tabWidth = tabRefs.current[0]?.offsetWidth || 0;
     const pathname = location.pathname.split("/")[1];
-    if (pathname === "trending") {
-      setTransDegree(5);
-      tabRefs.current[0].style.setProperty("color", "black");
-      tabRefs.current[0].style.setProperty("font-weight", "700");
-    } else if (pathname === "recent") {
-      setTransDegree(92);
-      tabRefs.current[1].style.setProperty("color", "black");
-      tabRefs.current[1].style.setProperty("font-weight", "700");
-    } else if (pathname === "feed") {
-      setTransDegree(178);
-      tabRefs.current[2].style.setProperty("color", "black");
-      tabRefs.current[2].style.setProperty("font-weight", "700");
+    let index = 0;
+    if (pathname === "recent") index = 1;
+    else if (pathname === "feed") index = 2;
+    setTransDegree(index * tabWidth + 2);
+
+    tabRefs.current.forEach((el) => {
+      if (el) {
+        el.style.setProperty("color", "var(--text3)");
+        el.style.setProperty("font-weight", "200");
+      }
+    });
+
+    if (tabRefs.current[index]) {
+      tabRefs.current[index].style.setProperty("color", "black");
+      tabRefs.current[index].style.setProperty("font-weight", "700");
     }
   }, [location]);
   const onTabClick = (e) => {
     const clicked = e.target.id;
-    navigate(`/${clicked}`);
+    if (clicked === "trending") navigate("/trending/week");
+    else navigate(`/${clicked}`);
   };
   return (
     <Wrapper>
@@ -63,15 +64,14 @@ const HomeTab = () => {
         </Tab>
         <HomeTabIndicator transDegree={transDegree}></HomeTabIndicator>
       </CatetoryTabContainer>
-      <SelectWrapper></SelectWrapper>
+      <SelectWrapper />
     </Wrapper>
   );
 };
 
 export default HomeTab;
-const SelectWrapper = styled.div``;
 const HomeTabIndicator = styled.div`
-  height: 3px;
+  height: 2px;
   position: absolute;
   transform: translateX(${(props) => props.transDegree}px);
   bottom: 0;
@@ -99,10 +99,14 @@ const CatetoryTabContainer = styled.div`
   justify-content: space-between;
   height: 100%;
   width: 262px;
+  @media screen and (max-width: 768px) {
+    width: 220px;
+  }
 `;
 const Wrapper = styled.div`
   height: 72px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 12px 0;
 `;
