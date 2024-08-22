@@ -7,7 +7,7 @@ const PostList = () => {
 export default PostList;
 
 const Wrapper = styled.div`
-  background-color: aliceblue;
+  background-color: #2a9cff;
   width: 100%;
   height: 50vh;
 `;

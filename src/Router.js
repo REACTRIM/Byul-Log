@@ -16,6 +16,28 @@ const Router = createBrowserRouter([
         path: "",
         element: <Home />,
       },
+      {
+        path: "trending",
+        element: <Home />,
+        children: [
+          {
+            path: "day",
+            element: <Home />,
+          },
+          {
+            path: "week",
+            element: <Home />,
+          },
+        ],
+      },
+      {
+        path: "recent",
+        element: <Home />,
+      },
+      {
+        path: "feed",
+        element: <Home />,
+      },
     ],
   },
 ]);

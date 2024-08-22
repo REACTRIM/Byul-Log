@@ -3,6 +3,7 @@ import Router from "./Router";
 import { RouterProvider } from "react-router-dom";
 import { GlobalStyles } from "./styles/GlobalStyles";
 function App() {
+  //로그인 처리 구현
   return (
     <Wrapper>
       <GlobalStyles />
@@ -22,7 +23,7 @@ const Wrapper = styled.div`
   }
   @media screen and (max-width: 1056px) {
     width: 100vw;
-    padding: 0 10px;
+    padding: 0 1rem;
   }
 `;
 
