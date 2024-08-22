@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ReactComponent as MoreIcon } from "../../assets/icons/more.svg";
 import { ReactComponent as DownArrowIcon } from "../../assets/icons/down-arow.svg";
 import { useEffect, useRef, useState } from "react";
@@ -9,6 +9,9 @@ const SelectWrapper = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
+  console.log(visible, isModalOpen);
+
   useEffect(() => {
     const path = location.pathname.split("/")[2];
     if (ListRefs.current[0] && ListRefs.current[1]) {
@@ -23,11 +26,15 @@ const SelectWrapper = () => {
   }, [isModalOpen, location]);
   const handleModal = () => {
     if (isModalOpen) {
+      setVisible(false);
       setTimeout(() => {
-        setIsModalOpen((prev) => !prev);
-      }, 300);
+        setIsModalOpen(false);
+      }, 190);
     } else {
-      setIsModalOpen((prev) => !prev);
+      setVisible(true);
+      setTimeout(() => {
+        setIsModalOpen(true);
+      }, 190);
     }
   };
   return (
@@ -37,8 +44,8 @@ const SelectWrapper = () => {
         <DownArrowIcon />
       </SelectBox>
       <MoreIcon />
-      {isModalOpen ? (
-        <Modal isModalOpen={isModalOpen}>
+      {isModalOpen && (
+        <Modal visible={visible} ismodalopen={isModalOpen}>
           <li
             onClick={() => {
               handleModal();
@@ -60,7 +67,7 @@ const SelectWrapper = () => {
             이번 주
           </li>
         </Modal>
-      ) : null}
+      )}
     </Wrapper>
   );
 };
@@ -76,9 +83,10 @@ const Modal = styled.ul`
   flex-direction: column;
   gap: 0.5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  animation: ${({ isModalOpen }) =>
-      isModalOpen ? "scale-up-tr" : "scale-down-tr"}
-    0.3s ease-in;
+  visibility: ${({ ismodalopen }) => (ismodalopen ? "visible" : "hidden")};
+  transition: visibility 0.2s ease-out;
+  animation: ${({ visible }) => (visible ? scaleUpTr : scaleDownTr)} 0.2s
+    ease-in;
   li {
     cursor: pointer;
     background-color: white;
@@ -86,34 +94,6 @@ const Modal = styled.ul`
     font-size: 1rem;
     &:hover {
       background-color: var(--bg-element3);
-    }
-  }
-  @keyframes scale-up-tr {
-    0% {
-      -webkit-transform: scale(0.5);
-      transform: scale(0.5);
-      -webkit-transform-origin: 100% 0%;
-      transform-origin: 100% 0%;
-    }
-    100% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      -webkit-transform-origin: 100% 0%;
-      transform-origin: 100% 0%;
-    }
-  }
-  @keyframes scale-down-tr {
-    0% {
-      -webkit-transform: scale(1);
-      transform: scale(1);
-      -webkit-transform-origin: 100% 0%;
-      transform-origin: 100% 0%;
-    }
-    100% {
-      -webkit-transform: scale(0.5);
-      transform: scale(0.5);
-      -webkit-transform-origin: 100% 0%;
-      transform-origin: 100% 0%;
     }
   }
 `;
@@ -157,5 +137,29 @@ const Wrapper = styled.div`
     cursor: pointer;
     height: 28px;
     stroke: var(--text3);
+  }
+`;
+
+const scaleUpTr = keyframes`
+   0% {
+    opacity: 0;
+    transform: scale(0.7);
+    transform-origin: 100% 0%;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 100% 0%;
+  }
+`;
+
+const scaleDownTr = keyframes`
+  0% {
+    transform: scale(1);
+    transform-origin: 100% 0%;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(0.7);
+    transform-origin: 100% 0%;
   }
 `;

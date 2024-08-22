@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Header from "../components/common/header";
 import PostList from "../components/home/post-list";
 import HomeTab from "../components/home/home-tab";
 

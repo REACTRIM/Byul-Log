@@ -62,7 +62,7 @@ const HomeTab = () => {
           <WifiIcon id="feed" />
           <span id="feed">피드</span>
         </Tab>
-        <HomeTabIndicator transDegree={transDegree}></HomeTabIndicator>
+        <HomeTabIndicator transdegree={transDegree}></HomeTabIndicator>
       </CatetoryTabContainer>
       <SelectWrapper />
     </Wrapper>
@@ -73,7 +73,7 @@ export default HomeTab;
 const HomeTabIndicator = styled.div`
   height: 2px;
   position: absolute;
-  transform: translateX(${(props) => props.transDegree}px);
+  transform: translateX(${(props) => props.transdegree}px);
   bottom: 0;
   width: 32%;
   background-color: black;

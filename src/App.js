@@ -13,9 +13,9 @@ function App() {
 }
 
 const Wrapper = styled.div`
-  width: 1376px;
+  width: 1730px;
   height: 100vh;
-  @media screen and (max-width: 1919px) {
+  @media screen and (max-width: 1800px) {
     width: 1376px;
   }
   @media screen and (max-width: 1440px) {
