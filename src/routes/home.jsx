@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import PostList from "../components/home/post-list";
 import HomeTab from "../components/home/home-tab";
+import { useEffect, useState } from "react";
 
 const Home = () => {
   return (
