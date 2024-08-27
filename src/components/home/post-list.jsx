@@ -2,18 +2,24 @@ import styled, { keyframes } from "styled-components";
 import testImg from "../../assets/imgs/testImage.jpg";
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
-
-const initialData = Array(20).fill({
-  imgUrl: "/imgs/testImage.jpg",
-  title: "글 제목 타이틀 title",
-  content: "글 내용 컨텐츠 content",
-  createAt: "2022289530104",
-  writer: "별별",
-});
+import { dummyData } from "../../assets/data/post-data";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { users } from "../../assets/data/users";
+import { ReactComponent as HeartIcon } from "../../assets/icons/heart.svg";
+// const initialData = Array(20).fill({
+//   imgUrl: "/imgs/testImage.jpg",
+//   title: "글 제목 타이틀 title",
+//   content: "글 내용 컨텐츠 content",
+//   createAt: "2022289530104",
+//   user_name: "별별",
+// });
 
 const PostList = () => {
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState(dummyData);
   const [isLoading, setIsLoading] = useState(false);
+  const userList = users;
+  const navigate = useNavigate();
+  const location = useLocation();
   const page = {
     _page: 1,
     _scrollchk: false,
@@ -25,32 +31,44 @@ const PostList = () => {
         page._scrollchk = true;
         try {
           setIsLoading(true);
-          console.log("ddodod");
           // 서버로부터 데이터를 가져오는 로직 (현재는 setTimeout으로 대체)
           setTimeout(() => {
             const newData = Array(10).fill({
-              imgUrl: "/imgs/testImage.jpg",
-              title: "새로운 글 제목 타이틀 title",
-              content: "새로운 글 내용 컨텐츠 content",
-              createAt: "2022289530104",
-              writer: "별별",
+              id: 1,
+              imgUrl: "/imgs/testImage1.jpg",
+              title: "모험의 시작: 새로운 세계로 떠나다!",
+              content:
+                "어느 날 갑자기 문 앞에 나타난 신비한 초대장, 나는 결심했다. 새로운 세계로의 모험이 시작된다!",
+              createAt: "2024010112345",
+              user_id: "starstar1",
+              heart_count: 12,
+              comment_id: [101, 102],
             });
 
             setData((prev) => [...prev, ...newData]);
-          }, 5000);
+          }, 2000);
         } catch (error) {
           console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
         } finally {
-          console.log("eeee");
           setTimeout(() => {
             setIsLoading(false);
-          }, 5000);
+          }, 2000);
           page._scrollchk = false;
         }
       },
     },
   };
 
+  useEffect(() => {
+    const path = location.pathname.split("/");
+    if (path[1] == "trending")
+      setData([...data].sort((a, b) => b.heart_count - a.heart_count));
+    else if (path[1] === "recent")
+      setData([...data].sort((a, b) => b.createdAt - a.createdAt));
+    else if (!path[1])
+      setData([...data].sort((a, b) => b.heart_count - a.heart_count));
+    // else if (path[1] === "feed") setData(null);
+  }, [location]);
   useEffect(() => {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -67,29 +85,50 @@ const PostList = () => {
     return () => io.disconnect(); // 컴포넌트 언마운트 시 observer 해제
   }, []);
   useEffect(() => {
-    console.log(isLoading);
+    // console.log(isLoading);
   }, [isLoading]);
   return (
     <Wrapper>
-      {data.map((el, i) => (
-        <PostCard key={i}>
-          <ImgDiv></ImgDiv>
-          <DescDiv>
-            <div className="title-content">
-              <div className="title">{i + el.title}</div>
-              <div className="content">{el.content}</div>
-            </div>
-            <div className="created-at">
-              {dayjs(el.createAt).format("YYYY년 M월 DD일")}
-            </div>
-          </DescDiv>
-          <Footer>
-            <div className="footer-profile">by {el.writer}</div>
-          </Footer>
-        </PostCard>
-      ))}
+      {data.map((el, i) => {
+        const el_name = userList.find(
+          (item) => item.user_id === el.user_id
+        ).user_name;
+        return (
+          <PostCard
+            onClick={() =>
+              navigate(
+                `/@${encodeURIComponent(el.user_id)}/${encodeURIComponent(
+                  el.title
+                )}`
+              )
+            }
+            key={i}
+          >
+            <ImgDiv></ImgDiv>
+            <DescDiv>
+              <div className="title-content">
+                <div className="title">{el.title}</div>
+                <div className="desc">{el.desc}</div>
+              </div>
+              <div className="created-at">
+                {dayjs(el.createdAt).format("YYYY년 M월 DD일")}
+              </div>
+            </DescDiv>
+            <Footer>
+              <div className="footer-profile">
+                <img src="/profile.png" />
+                <span>by</span> {el_name}
+              </div>
+              <div className="heart-box">
+                <HeartIcon />
+                {el.heart_count}
+              </div>
+            </Footer>
+          </PostCard>
+        );
+      })}
       {isLoading &&
-        Array(5)
+        Array(4)
           .fill(0)
           .map((el) => (
             <PostCard>
@@ -117,6 +156,33 @@ const Footer = styled.div`
   border-top: 1px solid var(--border3);
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  .footer-profile {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    span {
+      margin-right: 5px;
+      color: var(--text3);
+    }
+    img {
+      border-radius: 50%;
+      width: 25px;
+      margin-right: 10px;
+    }
+  }
+  .heart-box {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--text2);
+    svg {
+      stroke: var(--text2);
+      fill: var(--text2);
+      width: 15px;
+    }
+  }
 `;
 const DescDiv = styled.div`
   padding: 20px 20px;
@@ -132,7 +198,7 @@ const DescDiv = styled.div`
       font-size: 1.1rem;
       font-weight: 800;
     }
-    .content {
+    .desc {
       font-weight: 100;
       color: var(--text3);
     }

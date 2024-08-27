@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "./routes/home";
 import Layout from "./components/layout/layout";
+import PostDetail from "./routes/post-detail";
 
 const Router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const Router = createBrowserRouter([
       {
         path: "feed",
         element: <Home />,
+      },
+      {
+        path: "/:userId/:postTitle",
+        element: <PostDetail />,
       },
     ],
   },

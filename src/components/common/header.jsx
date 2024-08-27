@@ -2,13 +2,48 @@ import styled from "styled-components";
 import HeaderProfile from "./header-profile";
 import { ReactComponent as BellIcon } from "../../assets/icons/bell.svg";
 import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
+  const params = useParams();
+  const [position, setPosition] = useState(window.scrollY);
+  const [visible, setVisible] = useState(true);
+  const [isTop, setIsTop] = useState(true);
+  const [isHome, setIsHome] = useState(true);
+
+  useEffect(() => {
+    if (position === 0) setIsTop(false);
+    else setIsTop(true);
+    const handleScroll = () => {
+      const moving = window.scrollY;
+      setVisible(position > moving);
+      setPosition(moving);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [position]);
+  useEffect(() => {
+    if (params.postTitle) setIsHome(false);
+    else setIsHome(true);
+  }, [params]);
   return (
-    <Wrapper>
-      <Logo onClick={() => navigate("/")}>byulog</Logo>
+    <Wrapper isHome={isHome} isTop={isTop} visible={visible}>
+      {params.postTitle ? (
+        <Logo>
+          <img
+            src="/purple_star.png"
+            alt="logo"
+            onClick={() => navigate("/")}
+          />
+          <span>{params.userId}.log</span>
+        </Logo>
+      ) : (
+        <Logo onClick={() => navigate("/")}>byulog</Logo>
+      )}
       <RightIcons>
         <div className="icon-div">
           <BellIcon />
@@ -64,6 +99,16 @@ const Logo = styled.div`
   font-size: 1.5rem;
   letter-spacing: 2px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  img {
+    height: 30px;
+    margin-right: 10px;
+  }
+  span {
+    font-weight: 600;
+    letter-spacing: -1px;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -73,5 +118,14 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
+  padding: 0 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  visibility: ${({ visible }) => (visible ? "visible" : "hidden")};
+  background-color: ${({ isHome }) =>
+    isHome ? "var(--background2)" : "white"};
+  z-index: 4;
+  box-shadow: ${({ isTop }) =>
+    isTop ? "rgba(167, 167, 167, 0.2) 0px 2px 5px 0px;" : null};
 `;

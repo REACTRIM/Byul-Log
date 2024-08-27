@@ -10,15 +10,16 @@ const SelectWrapper = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visible, setVisible] = useState(false);
-  console.log(visible, isModalOpen);
-
+  const [selected, setSelected] = useState("이번 주");
   useEffect(() => {
     const path = location.pathname.split("/")[2];
     if (ListRefs.current[0] && ListRefs.current[1]) {
       if (path === "day") {
+        setSelected("오늘");
         ListRefs.current[1].style.setProperty("color", "black");
         ListRefs.current[0].style.setProperty("color", "var(--primary1)");
       } else {
+        setSelected("이번 주");
         ListRefs.current[0].style.setProperty("color", "black");
         ListRefs.current[1].style.setProperty("color", "var(--primary1)");
       }
@@ -40,7 +41,7 @@ const SelectWrapper = () => {
   return (
     <Wrapper>
       <SelectBox onClick={handleModal}>
-        <span>이번 주</span>
+        <span>{selected}</span>
         <DownArrowIcon />
       </SelectBox>
       <MoreIcon />

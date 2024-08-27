@@ -109,4 +109,5 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
+  margin-top: 64px;
 `;
