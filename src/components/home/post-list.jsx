@@ -20,44 +20,44 @@ const PostList = () => {
   const userList = users;
   const navigate = useNavigate();
   const location = useLocation();
-  const page = {
-    _page: 1,
-    _scrollchk: false,
+  // const page = {
+  //   _page: 1,
+  //   _scrollchk: false,
 
-    list: {
-      search: async function () {
-        if (page._scrollchk) return;
+  //   list: {
+  //     search: async function () {
+  //       if (page._scrollchk) return;
 
-        page._scrollchk = true;
-        try {
-          setIsLoading(true);
-          // 서버로부터 데이터를 가져오는 로직 (현재는 setTimeout으로 대체)
-          setTimeout(() => {
-            const newData = Array(10).fill({
-              id: 1,
-              imgUrl: "/imgs/testImage1.jpg",
-              title: "모험의 시작: 새로운 세계로 떠나다!",
-              content:
-                "어느 날 갑자기 문 앞에 나타난 신비한 초대장, 나는 결심했다. 새로운 세계로의 모험이 시작된다!",
-              createAt: "2024010112345",
-              user_id: "starstar1",
-              heart_count: 12,
-              comment_id: [101, 102],
-            });
+  //       page._scrollchk = true;
+  //       try {
+  //         setIsLoading(true);
+  //         // 서버로부터 데이터를 가져오는 로직 (현재는 setTimeout으로 대체)
+  //         setTimeout(() => {
+  //           const newData = Array(10).fill({
+  //             id: 1,
+  //             imgUrl: "/imgs/testImage1.jpg",
+  //             title: "모험의 시작: 새로운 세계로 떠나다!",
+  //             content:
+  //               "어느 날 갑자기 문 앞에 나타난 신비한 초대장, 나는 결심했다. 새로운 세계로의 모험이 시작된다!",
+  //             createAt: "2024010112345",
+  //             user_id: "starstar1",
+  //             heart_count: 12,
+  //             comment_id: [101, 102],
+  //           });
 
-            setData((prev) => [...prev, ...newData]);
-          }, 2000);
-        } catch (error) {
-          console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
-        } finally {
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 2000);
-          page._scrollchk = false;
-        }
-      },
-    },
-  };
+  //           setData((prev) => [...prev, ...newData]);
+  //         }, 2000);
+  //       } catch (error) {
+  //         console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+  //       } finally {
+  //         setTimeout(() => {
+  //           setIsLoading(false);
+  //         }, 2000);
+  //         page._scrollchk = false;
+  //       }
+  //     },
+  //   },
+  // };
 
   useEffect(() => {
     const path = location.pathname.split("/");
@@ -69,21 +69,21 @@ const PostList = () => {
       setData([...data].sort((a, b) => b.heart_count - a.heart_count));
     // else if (path[1] === "feed") setData(null);
   }, [location]);
-  useEffect(() => {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        if (page._scrollchk) return;
-        page._page += 1;
-        page.list.search();
-      });
-    });
-    const sentinel = document.getElementById("sentinel");
-    if (sentinel) {
-      io.observe(sentinel);
-    }
-    return () => io.disconnect(); // 컴포넌트 언마운트 시 observer 해제
-  }, []);
+  // useEffect(() => {
+  //   const io = new IntersectionObserver((entries) => {
+  //     entries.forEach((entry) => {
+  //       if (!entry.isIntersecting) return;
+  //       if (page._scrollchk) return;
+  //       page._page += 1;
+  //       page.list.search();
+  //     });
+  //   });
+  //   const sentinel = document.getElementById("sentinel");
+  //   if (sentinel) {
+  //     io.observe(sentinel);
+  //   }
+  //   return () => io.disconnect(); // 컴포넌트 언마운트 시 observer 해제
+  // }, []);
   useEffect(() => {
     // console.log(isLoading);
   }, [isLoading]);
@@ -104,7 +104,7 @@ const PostList = () => {
             }
             key={i}
           >
-            <ImgDiv></ImgDiv>
+            <ImgDiv imgUrl={el.imgUrl}></ImgDiv>
             <DescDiv>
               <div className="title-content">
                 <div className="title">{el.title}</div>
@@ -127,7 +127,7 @@ const PostList = () => {
           </PostCard>
         );
       })}
-      {isLoading &&
+      {/* {isLoading &&
         Array(4)
           .fill(0)
           .map((el) => (
@@ -143,14 +143,14 @@ const PostList = () => {
           ))}
       <div id="sentinel">
         <img src="/loading.gif" alt="" />
-      </div>
+      </div> */}
     </Wrapper>
   );
 };
 
 export default PostList;
 
-const Footer = styled.div`
+export const Footer = styled.div`
   width: 100%;
   padding: 0 20px;
   border-top: 1px solid var(--border3);
@@ -184,7 +184,7 @@ const Footer = styled.div`
     }
   }
 `;
-const DescDiv = styled.div`
+export const DescDiv = styled.div`
   padding: 20px 20px;
   display: flex;
   flex-direction: column;
@@ -208,9 +208,9 @@ const DescDiv = styled.div`
     font-size: 0.8rem;
   }
 `;
-const ImgDiv = styled.div`
+export const ImgDiv = styled.div`
   width: 100%;
-  background-image: url("/testImage.jpg");
+  background-image: url(${(props) => props.imgUrl});
   background-size: cover;
 `;
 const skeletonAnimation = keyframes`
@@ -253,7 +253,7 @@ const SkelTextDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const PostCard = styled.div`
+export const PostCard = styled.div`
   width: 100%;
   height: 23rem;
   background-color: #ffffff;

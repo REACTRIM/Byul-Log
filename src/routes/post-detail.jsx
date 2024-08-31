@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { dummyData } from "../assets/data/post-data";
 import styled from "styled-components";
 import dayjs from "dayjs";
@@ -20,6 +20,7 @@ const PostDetail = () => {
   const [postData, setPostData] = useState();
   const [user, setUser] = useState();
   const [splicedId, setSplicedId] = useState();
+  const navigate = useNavigate();
   useEffect(() => {
     const spliced = userId.slice(1);
     setSplicedId(spliced);
@@ -34,8 +35,6 @@ const PostDetail = () => {
   if (isLoading) {
     return <>로딩중...</>;
   }
-  console.log(marked(postData.content));
-
   return (
     <Wrapper>
       <Container>
@@ -43,7 +42,14 @@ const PostDetail = () => {
           <h1>{postData?.title}</h1>
           <Information>
             <div className="info-left">
-              <span>{user?.user_name}</span>·
+              <span
+                onClick={() =>
+                  navigate(`/@${encodeURIComponent(user?.user_id)}`)
+                }
+              >
+                {user?.user_name}
+              </span>
+              ·
               <span>{dayjs(postData?.createAt).format("YYYY년 M월 DD일")}</span>
             </div>
             <div className="info-buttons">
@@ -71,12 +77,56 @@ const PostDetail = () => {
           className="markdown-body"
           dangerouslySetInnerHTML={{ __html: marked(postData.content) }}
         ></ContentMarkDown>
+        <ProfileBar>
+          <div id="profile-div">
+            <img
+              onClick={() => navigate(`/@${encodeURIComponent(user?.user_id)}`)}
+              src="/profile.png"
+              alt=""
+            />
+            <span
+              onClick={() => navigate(`/@${encodeURIComponent(user?.user_id)}`)}
+            >
+              {user?.user_name}
+            </span>
+          </div>
+        </ProfileBar>
       </Container>
     </Wrapper>
   );
 };
 
 export default PostDetail;
+
+export const ProfileBar = styled.div`
+  width: 100%;
+  height: 128px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15rem;
+  @media screen and (max-width: 768px) {
+    width: 131px;
+  }
+  img {
+    border-radius: 50%;
+  }
+  #profile-div {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    span {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+`;
+
 const LeftFixedIcons = styled.div`
   position: fixed;
   top: 20rem;
@@ -131,12 +181,16 @@ const TagBox = styled.div`
   display: flex;
   gap: 20px;
   button {
+    cursor: pointer;
     font-size: 1rem;
     background-color: var(--background2);
     color: var(--primary1);
     border: none;
     border-radius: 20px;
     padding: 10px;
+    &:hover {
+      opacity: 0.7;
+    }
   }
 `;
 
@@ -149,6 +203,12 @@ const Information = styled.div`
     display: flex;
     gap: 15px;
     font-size: 1.1rem;
+    span:first-child {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
     span:last-child {
       color: var(--text3);
       font-weight: 100;
@@ -194,7 +254,7 @@ const HeaderWrapper = styled.div`
   }
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   position: relative;
   margin-top: 88px;
   width: 768px;
@@ -206,9 +266,10 @@ const Container = styled.div`
     margin-top: 32px;
   }
 `;
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
+  padding-bottom: 200px;
   justify-content: center;
 `;

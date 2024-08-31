@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "./routes/home";
 import Layout from "./components/layout/layout";
 import PostDetail from "./routes/post-detail";
+import Profile from "./routes/profile";
+import Search from "./routes/search";
 
 const Router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ const Router = createBrowserRouter([
       {
         path: "/:userId/:postTitle",
         element: <PostDetail />,
+      },
+      {
+        path: "/:userId",
+        element: <Profile />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
     ],
   },

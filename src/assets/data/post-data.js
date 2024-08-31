@@ -1,7 +1,8 @@
 export const dummyData = [
   {
     id: 1,
-    imgUrl: "/imgs/testImage1.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2022/05/11/13/55/nature-7189418_1280.jpg",
     title: "모험의 시작: 새로운 세계로 떠나다!",
     desc: "어느 날 갑자기 문 앞에 나타난 신비한 초대장, 나는 결심했다. 새로운 세계로의 모험이 시작된다!",
     content: `![](https://cdn.pixabay.com/photo/2022/05/11/13/55/nature-7189418_1280.jpg)
@@ -40,7 +41,8 @@ __이 모험은 나의 인생을 바꿀지도 모른다.__
   },
   {
     id: 2,
-    imgUrl: "/imgs/testImage2.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2023/12/20/16/21/baking-8460297_1280.png",
     title: "맛있는 요리의 비밀: 비법 소스를 찾아라!",
     desc: "모든 요리의 핵심은 소스에 있다. 오늘은 전설의 비법 소스를 찾아 나서는 이야기를 소개한다.",
     content: `
@@ -80,14 +82,15 @@ __이 비법 소스를 사용해 요리를 마무리하면, 손님들은 그 맛
 비법을 공유하는 것은 큰 책임을 동반한다. **정확한 조리법**을 따르고, 소스를 만드는 과정을 통해 자신의 요리 실력을 발전시켜 보자. 그리고 맛있는 요리의 즐거움을 만끽하자!
     `,
     createdAt: "2024010212346",
-    user_id: "cookking42",
+    user_id: "starstar1",
     heart_count: 25,
     comment_id: [103, 104, 105],
     tags: ["요리", "레시피", "비법"],
   },
   {
     id: 3,
-    imgUrl: "/imgs/testImage3.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg",
     title: "우주 탐험: 화성에서 온 초대장",
     desc: "화성에서 신호가 왔다! 과연 외계 생명체와의 첫 만남은 어떤 모습일까?",
     content: `![](https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg)
@@ -126,7 +129,8 @@ __과연 이 신호의 진실은 무엇일까?__
   },
   {
     id: 4,
-    imgUrl: "/imgs/testImage4.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2024/03/08/09/55/cat-8620369_1280.png",
     title: "고양이의 하루: 털복숭이의 모험",
     desc: "나의 털복숭이 친구가 오늘 또 어떤 장난을 칠까? 귀여운 고양이의 하루 일상을 공개합니다.",
     content: `
@@ -165,7 +169,8 @@ __과연 이 신호의 진실은 무엇일까?__
   },
   {
     id: 5,
-    imgUrl: "/imgs/testImage5.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg",
     title: "시간 여행자의 일기: 과거로의 탈출",
     desc: "과거로 돌아가는 문이 열렸다. 내가 경험한 신비한 시간 여행의 비밀을 지금 공개합니다.",
     content: `![](https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg)
@@ -204,7 +209,8 @@ __과연 이 신호의 진실은 무엇일까?__
   },
   {
     id: 6,
-    imgUrl: "/imgs/testImage6.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg",
     title: "AI와의 대화: 나의 인공지능 친구",
     desc: "인공지능과의 대화는 생각보다 재미있다! 오늘 나눈 이야기들을 공개합니다.",
     content: `![](https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg)
@@ -243,7 +249,8 @@ __과연 이 신호의 진실은 무엇일까?__
   },
   {
     id: 7,
-    imgUrl: "/imgs/testImage7.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg",
     title: "미스터리 사건: 사라진 보물을 찾아라",
     desc: "도심 한복판에서 일어난 보물 실종 사건, 과연 범인은 누구일까? 미스터리를 풀어봅시다.",
     content: `![](https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg)
@@ -282,7 +289,8 @@ __과연 이 신호의 진실은 무엇일까?__
   },
   {
     id: 8,
-    imgUrl: "/imgs/testImage8.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg",
     title: "비밀의 정원: 숨겨진 꽃의 전설",
     desc: "도심 속 비밀의 정원, 그곳에 숨겨진 전설의 꽃을 찾기 위한 모험이 시작된다.",
     content: `![](https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg)
@@ -321,7 +329,8 @@ __과연 이 신호의 진실은 무엇일까?__
   },
   {
     id: 9,
-    imgUrl: "/imgs/testImage9.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg",
     title: "꿈의 집: 나만의 아지트를 만들다",
     desc: "버려진 창고를 나만의 아지트로 변신시키는 과정! 창의력 폭발 프로젝트를 소개합니다.",
     content: `![](https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg)
@@ -360,7 +369,8 @@ __과연 이 신호의 진실은 무엇일까?__
   },
   {
     id: 10,
-    imgUrl: "/imgs/testImage10.jpg",
+    imgUrl:
+      "https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg",
     title: "힐링 여행: 산속의 작은 마을로",
     desc: "복잡한 도시를 떠나 산속의 작은 마을로 떠난 힐링 여행기. 자연이 주는 평온함을 느껴보세요.",
     content: `![](https://cdn.pixabay.com/photo/2012/10/10/11/05/space-station-60615_1280.jpg)

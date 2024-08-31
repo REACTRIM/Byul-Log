@@ -2,17 +2,17 @@ import styled from "styled-components";
 import HeaderProfile from "./header-profile";
 import { ReactComponent as BellIcon } from "../../assets/icons/bell.svg";
 import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
   const params = useParams();
+  const location = useLocation();
   const [position, setPosition] = useState(window.scrollY);
   const [visible, setVisible] = useState(true);
   const [isTop, setIsTop] = useState(true);
-  const [isHome, setIsHome] = useState(true);
-
+  const [isHome, setIsHome] = useState(false);
   useEffect(() => {
     if (position === 0) setIsTop(false);
     else setIsTop(true);
@@ -27,12 +27,15 @@ const Header = () => {
     };
   }, [position]);
   useEffect(() => {
-    if (params.postTitle) setIsHome(false);
-    else setIsHome(true);
-  }, [params]);
+    if (location.pathname.split("/")[1] === "search") setIsHome(false);
+    else {
+      if (params.userId) setIsHome(false);
+      else setIsHome(true);
+    }
+  }, [params, location]);
   return (
     <Wrapper isHome={isHome} isTop={isTop} visible={visible}>
-      {params.postTitle ? (
+      {params.userId ? (
         <Logo>
           <img
             src="/purple_star.png"
@@ -48,7 +51,7 @@ const Header = () => {
         <div className="icon-div">
           <BellIcon />
         </div>
-        <div className="icon-div">
+        <div onClick={() => navigate("/search")} className="icon-div">
           <SearchIcon />
         </div>
         <div className="new-post">새 글 작성</div>
