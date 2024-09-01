@@ -4,6 +4,7 @@ import Layout from "./components/layout/layout";
 import PostDetail from "./routes/post-detail";
 import Profile from "./routes/profile";
 import Search from "./routes/search";
+import Tags from "./routes/tags";
 
 const Router = createBrowserRouter([
   {
@@ -19,11 +20,11 @@ const Router = createBrowserRouter([
         element: <Home />,
         children: [
           {
-            path: "day",
+            path: ":range",
             element: <Home />,
           },
           {
-            path: "week",
+            path: ":range",
             element: <Home />,
           },
         ],
@@ -47,6 +48,10 @@ const Router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
+      },
+      {
+        path: "/tags/:tagName",
+        element: <Tags />,
       },
     ],
   },

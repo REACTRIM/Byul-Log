@@ -62,7 +62,9 @@ const PostDetail = () => {
           </Information>
           <TagBox>
             {postData?.tags?.map((tag, index) => (
-              <button key={index}>{tag}</button>
+              <button onClick={() => navigate(`/tags/${tag}`)} key={index}>
+                {tag}
+              </button>
             ))}
           </TagBox>
         </HeaderWrapper>
@@ -73,6 +75,11 @@ const PostDetail = () => {
           </div>
           <ShareIcon />
         </LeftFixedIcons>
+        <img
+          src={postData?.imgUrl}
+          alt="img"
+          style={{ width: "100%", marginTop: "4rem" }}
+        />
         <ContentMarkDown
           className="markdown-body"
           dangerouslySetInnerHTML={{ __html: marked(postData.content) }}
@@ -174,7 +181,7 @@ const LeftFixedIcons = styled.div`
 `;
 
 const ContentMarkDown = styled.div`
-  margin-top: 8rem;
+  margin-top: 4rem;
 `;
 const TagBox = styled.div`
   margin-top: 14px;

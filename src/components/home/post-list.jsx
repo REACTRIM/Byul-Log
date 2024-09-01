@@ -6,13 +6,6 @@ import { dummyData } from "../../assets/data/post-data";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { users } from "../../assets/data/users";
 import { ReactComponent as HeartIcon } from "../../assets/icons/heart.svg";
-// const initialData = Array(20).fill({
-//   imgUrl: "/imgs/testImage.jpg",
-//   title: "글 제목 타이틀 title",
-//   content: "글 내용 컨텐츠 content",
-//   createAt: "2022289530104",
-//   user_name: "별별",
-// });
 
 const PostList = () => {
   const [data, setData] = useState(dummyData);
@@ -20,6 +13,8 @@ const PostList = () => {
   const userList = users;
   const navigate = useNavigate();
   const location = useLocation();
+  const { range } = useParams();
+
   // const page = {
   //   _page: 1,
   //   _scrollchk: false,
@@ -58,7 +53,6 @@ const PostList = () => {
   //     },
   //   },
   // };
-
   useEffect(() => {
     const path = location.pathname.split("/");
     if (path[1] == "trending")
@@ -67,7 +61,21 @@ const PostList = () => {
       setData([...data].sort((a, b) => b.createdAt - a.createdAt));
     else if (!path[1])
       setData([...data].sort((a, b) => b.heart_count - a.heart_count));
-    // else if (path[1] === "feed") setData(null);
+    const dayAgo = Number(
+      dayjs().subtract(1, "days").startOf("day").format("YYYYMMDDHHmmss")
+    );
+    const weekAgo = Number(
+      dayjs().subtract(7, "days").startOf("day").format("YYYYMMDDHHmmss")
+    );
+    if (range === "week") {
+      // const filtered = data.filter((el) => el.createdAt >= weekAgo);
+      setData(dummyData.filter((el) => el.createdAt >= weekAgo));
+      // console.log(filtered);
+    } else if (range === "day") {
+      // const filtered = data.filter((el) => el.createdAt >= dayAgo);
+      // console.log(filtered);
+      setData(dummyData.filter((el) => el.createdAt >= dayAgo));
+    }
   }, [location]);
   // useEffect(() => {
   //   const io = new IntersectionObserver((entries) => {

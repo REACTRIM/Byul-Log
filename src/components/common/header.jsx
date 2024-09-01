@@ -27,7 +27,11 @@ const Header = () => {
     };
   }, [position]);
   useEffect(() => {
-    if (location.pathname.split("/")[1] === "search") setIsHome(false);
+    if (
+      location.pathname.split("/")[1] === "search" ||
+      location.pathname.split("/")[1] === "tags"
+    )
+      setIsHome(false);
     else {
       if (params.userId) setIsHome(false);
       else setIsHome(true);

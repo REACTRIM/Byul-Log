@@ -2,29 +2,30 @@ import styled, { keyframes } from "styled-components";
 import { ReactComponent as MoreIcon } from "../../assets/icons/more.svg";
 import { ReactComponent as DownArrowIcon } from "../../assets/icons/down-arow.svg";
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const SelectWrapper = () => {
   const ListRefs = useRef([]);
-  const location = useLocation();
+  const { pathname } = useLocation();
+  const { range } = useParams();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState("이번 주");
   useEffect(() => {
-    const path = location.pathname.split("/")[2];
+    // const path = location.pathname.split("/")[2];
     if (ListRefs.current[0] && ListRefs.current[1]) {
-      if (path === "day") {
+      if (range === "day") {
         setSelected("오늘");
         ListRefs.current[1].style.setProperty("color", "black");
         ListRefs.current[0].style.setProperty("color", "var(--primary1)");
-      } else {
+      } else if (range === "week") {
         setSelected("이번 주");
         ListRefs.current[0].style.setProperty("color", "black");
         ListRefs.current[1].style.setProperty("color", "var(--primary1)");
       }
     }
-  }, [isModalOpen, location]);
+  }, [isModalOpen, range]);
   const handleModal = () => {
     if (isModalOpen) {
       setVisible(false);
@@ -40,10 +41,14 @@ const SelectWrapper = () => {
   };
   return (
     <Wrapper>
-      <SelectBox onClick={handleModal}>
-        <span>{selected}</span>
-        <DownArrowIcon />
-      </SelectBox>
+      {pathname.split("/")[1] === "trending" ? (
+        <SelectBox onClick={handleModal}>
+          <span>{selected}</span>
+          <DownArrowIcon />
+        </SelectBox>
+      ) : (
+        <SelectBox style={{ background: "none", border: "none" }}></SelectBox>
+      )}
       <MoreIcon />
       {isModalOpen && (
         <Modal visible={visible} ismodalopen={isModalOpen}>
